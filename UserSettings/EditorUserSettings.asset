@@ -5,20 +5,47 @@ EditorUserSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 4
   m_ConfigSettings:
+    GraphicsSettingsInspector_UserSettings:
+      value: 18134705175a055722080a3115371d4a0d55006876786860616b0471b8b9656dacb72ba5a52a362c3c0ee63201181433fe3e101bf3250b06144ca74c24f1190708e016c213c61a52f91c12cac80fd8edd298e1e4d1fde2cacddeacbcc1fee7eef0e3b6faa69af9ceaeaaec81a6d2c2c8c8c4b2e5dfd5ccd3f8cf
+      flags: 0
     RecentlyUsedSceneGuid-0:
-      value: 060056515c060a0f5d0a0a7b487308444115497f752e226628704c64b4b26261
+      value: 52020004520d5f580f56092016205a44474f4128757f25602c7d4532e6b6616c
       flags: 0
     RecentlyUsedSceneGuid-1:
-      value: 0005565553035a5e09590e74402559444315192b2f7e25632c2f1b32b3e6606d
+      value: 0105015156565d0d0e5b5526407a0f44144f1c7c7a2a7567287e456bbbb96c6a
       flags: 0
     RecentlyUsedSceneGuid-2:
-      value: 52020004520d5f580f56092016205a44474f4128757f25602c7d4532e6b6616c
+      value: 0202035506055f0d0c0d092046225d4447154e7b7a2b77692f7a446bb6b5316f
+      flags: 0
+    RecentlyUsedSceneGuid-3:
+      value: 5500555f03540f0b5d5e0e2011735c44474e4c292e7b2065797f1e62b6b5606a
+      flags: 0
+    RecentlyUsedSceneGuid-4:
+      value: 0203025450035102555a542313725a44404f1c7b292975687d7f4a61b5e5376b
+      flags: 0
+    RecentlyUsedSceneGuid-5:
+      value: 5b0707020707585d550b5b2148775e44434e482e7d7825627b2c4e31b2b76d6d
+      flags: 0
+    RecentlyUsedSceneGuid-6:
+      value: 5657025e070c510a0e08547443765b4445154d287f2974332b2b4d65e4e26c6a
+      flags: 0
+    RecentlyUsedSceneGuid-7:
+      value: 5350515455530c585b5c087149730d44144e1d2b7e2a723274284537b6b7326e
+      flags: 0
+    RecentlyUsedSceneGuid-8:
+      value: 0055500306015e0a5d58547416770e1641151d2b2a7c256579704537b5b7636d
+      flags: 0
+    RecentlyUsedSceneGuid-9:
+      value: 0005565553035a5e09590e74402559444315192b2f7e25632c2f1b32b3e6606d
       flags: 0
     RecentlyUsedScenePath-0:
       value: 22424703114646680e0b0227036c6c111b07142f1f2b233e2867083debf42d
       flags: 0
     RecentlyUsedScenePath-1:
       value: 22424703114646680e0b0227036c6b1505032b292926237e38271427fb
+      flags: 0
+    lightmappingBakingProfile:
+      value: 51
       flags: 0
     vcSharedLogLevel:
       value: 0d5e400f0650
@@ -37,4 +64,6 @@ EditorUserSettings:
   m_VCHierarchyOverlayIcons: 1
   m_VCOtherOverlayIcons: 1
   m_VCAllowAsyncUpdate: 1
+  m_VCScanLocalPackagesOnConnect: 1
   m_ArtifactGarbageCollection: 1
+  m_CompressAssetsOnImport: 1
