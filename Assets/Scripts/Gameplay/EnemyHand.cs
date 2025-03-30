@@ -9,12 +9,12 @@ public class EnemyHand : Hand
     
     [field: NonSerialized] public override bool IsPlayerHand { get; protected set; } = false;
 
-    public override SO_GameMove GetPlayedMove()
+    public override SO_GameMove GetSelectedMove()
     {
         MyMove = availableMoves[Random.Range(0, availableMoves.Count)];
         anim.SetInteger(MoveType, MyMove.GetMoveAnimatorIndex());
         
-        bMovePlayed = true;
+        bMoveSelected = true;
 
         return MyMove;
     }

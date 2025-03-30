@@ -12,6 +12,8 @@ public class MainCanvasController : MonoBehaviour
 	[SerializeField, Range(0.25f, 2f)] private float playBeginFadeDuration = 1f;
 
 	[SerializeField, Header("(MidGame) Radial Move Selection Menu")] private GameObject radialMoveMenu;
+	[SerializeField] private VerticalTimer timerL, timerR;
+	
 	// graphics that get enabled first
 	[SerializeField] private List<Graphic> radialMoveMenuGraphics1;
 	[SerializeField, Range(0.25f, 2f)] private float radialFadeDuration1 = 1f;
@@ -19,6 +21,7 @@ public class MainCanvasController : MonoBehaviour
 	// graphics that get enabled later
 	[SerializeField] private List<Graphic> radialMoveMenuGraphics2;
 	[SerializeField, Range(0.25f, 2f)] private float radialFadeDuration2 = 1f;
+	private bool bRadialMenuHidden = false;
 
 	[SerializeField] private RectTransform radialMoveMenuBackground;
 	[SerializeField] private float radialMenuHidePosY = -315f;
@@ -29,16 +32,19 @@ public class MainCanvasController : MonoBehaviour
 	[SerializeField, Range(0.25f, 2f)] private float exclamationAppearDuration = 1f;
 	[SerializeField, Range(0.25f, 2f)] private float exclamationFadeDuration = 1f;
 	[SerializeField, Range(0.25f, 2f)] private float exclamationWaitDuration = 1f;
+	[SerializeField] public Color winColor;
+	[SerializeField] public Color drawColor;
+	[SerializeField] public Color loseColor;
 	private float _initRetryButtonPosY;
 
 	private void OnEnable()
 	{
-		GameEvents.Singleton.MovePlayed += OnMovePlayed;
+		GameEvents.Singleton.PlayerMoveSelected += OnPlayerMoveSelected;
 		GameEvents.Singleton.MoveEnded += OnMoveEnd;
 	}
 	private void OnDisable()
 	{
-		GameEvents.Singleton.MovePlayed -= OnMovePlayed;
+		GameEvents.Singleton.PlayerMoveSelected -= OnPlayerMoveSelected;
 		GameEvents.Singleton.MoveEnded -= OnMoveEnd;
 
 		// kill any running tweens - currently only tagged sequences
@@ -84,9 +90,17 @@ public class MainCanvasController : MonoBehaviour
 				                        graphic.color = new Color(graphicColor.r, graphicColor.g, graphicColor.b, 0f);
 				                        graphic.transform.localScale *= 0f;
 			                        }
+			                        
+			                        timerL.gameObject.SetActive(true);
+			                        timerL.SetColor(loseColor);
+			                        timerL.StartTimer();
+			                        
+			                        timerR.gameObject.SetActive(true);
+			                        timerR.SetColor(loseColor);
+			                        timerR.StartTimer();
+
+			                        GameEvents.Singleton.AnnounceRoundStart();
 		                        });
-		
-		sequence.AppendCallback(() => GameEvents.Singleton.AnnounceRoundStart());
 		
 		foreach (var graphic in radialMoveMenuGraphics1)
 		{
@@ -111,8 +125,9 @@ public class MainCanvasController : MonoBehaviour
 	}
 
 	#region Event Reactions
-	private void OnMovePlayed(SO_GameMove move)
+	private void OnPlayerMoveSelected(SO_GameMove move)
 	{
+		bRadialMenuHidden = true;
 		foreach (var graphic in radialMoveMenuGraphics2)
 		{
 			graphic.DOFade(0f, radialFadeDuration2).OnComplete(() => graphic.gameObject.SetActive(false));
@@ -125,6 +140,20 @@ public class MainCanvasController : MonoBehaviour
 
 	private void OnMoveEnd(int winResult, string exclamation)
 	{
+		if (!bRadialMenuHidden)
+		{
+			bRadialMenuHidden = true;
+			foreach (var graphic in radialMoveMenuGraphics1)
+			{
+				graphic.DOFade(0f, radialFadeDuration1);
+				graphic.transform.DOScale(0f, radialFadeDuration1).SetEase(Ease.OutElastic);
+			}
+			foreach (var graphic in radialMoveMenuGraphics2)
+			{
+				graphic.DOFade(0f, radialFadeDuration2);
+				graphic.transform.DOScale(0f, radialFadeDuration2).SetEase(Ease.OutElastic);
+			}
+		}
 		exclamationText.gameObject.SetActive(true);
 		exclamationText.transform.localScale = Vector3.zero;
 		exclamationText.text = exclamation;
@@ -137,27 +166,31 @@ public class MainCanvasController : MonoBehaviour
 		
 		seq.Insert(0f, retryButtonImage.rectTransform.DOAnchorPosY(_initRetryButtonPosY, 0.5f).SetEase(Ease.OutElastic));
 		
-		seq.Insert(0f, exclamationText.transform.DOScale(Vector3.one, exclamationAppearDuration).SetEase(Ease.OutCirc));
-		var seqLength = exclamationAppearDuration;
-		
-		seq.AppendInterval(exclamationWaitDuration);
-		seqLength += exclamationWaitDuration;
+		var seqLength = 0f;
+		if (winResult != 1)
+		{
+			seq.Insert(0f, exclamationText.transform.DOScale(Vector3.one, exclamationAppearDuration).SetEase(Ease.OutCirc));
+			seqLength += exclamationAppearDuration;
 
-		seq.Insert(seqLength, exclamationText.transform.DOScale(Vector3.zero, exclamationFadeDuration));
-		seq.Insert(seqLength, exclamationText.DOFade(0f, exclamationFadeDuration));
-		seqLength += exclamationFadeDuration;
-		
+			seq.AppendInterval(exclamationWaitDuration);
+			seqLength += exclamationWaitDuration;
+
+			seq.Insert(seqLength, exclamationText.transform.DOScale(Vector3.zero, exclamationFadeDuration));
+			seq.Insert(seqLength, exclamationText.DOFade(0f, exclamationFadeDuration));
+			seqLength += exclamationFadeDuration;
+		}
 		seq.AppendCallback(() =>
 		                   {
 			                   exclamationText.transform.localScale = Vector3.zero;
+			                   exclamationText.fontSize = 190f;
 			                   exclamationText.text = winResult switch
 			                                          {
 				                                          -1 => // player defeat
-					                                          "You Lose!",
+					                                          "<color=#" + ColorUtility.ToHtmlStringRGB(loseColor) +">You Lose!</color>",
 				                                          0 => // draw
-					                                          "Draw!",
+					                                          "<color=#" + ColorUtility.ToHtmlStringRGB(drawColor) +">Draw!</color>",
 				                                          1 => // player victory
-					                                          "You Win!",
+					                                          "<color=#" + ColorUtility.ToHtmlStringRGB(winColor) +">You Win!</color>",
 				                                          _ => "" // default case
 			                                          };
 		                   });

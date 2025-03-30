@@ -38,11 +38,11 @@ public class SO_GameMove : ScriptableObject
 	public int GetMoveAnimatorIndex() => (int)moveType;
 
 	// returns 1 if player won the move, -1 if enemy, 0 if draw
-	public static int CalculateMoveResult(SO_GameMove player, SO_GameMove enemy, out string exclamation)
+	public static int EvaluateMoveResult(SO_GameMove player, SO_GameMove enemy, out string exclamation)
 	{
 		if (player.moveType == enemy.moveType)
 		{
-			exclamation = "Draw";
+			exclamation = "Both selected the same move!";
 			return 0;
 		}
 		
@@ -50,7 +50,7 @@ public class SO_GameMove : ScriptableObject
 		{
 			if (condition.WinAgainst != enemy.moveType) continue;
 			
-			exclamation = player.moveType + " " + condition.WinString + " " + enemy.moveType + "!";
+			exclamation = player.moveType + " " + condition.WinString + " " + enemy.moveType;
 			return 1;
 		}
 		
@@ -58,7 +58,7 @@ public class SO_GameMove : ScriptableObject
 		{
 			if (condition.WinAgainst != player.moveType) continue;
 			
-			exclamation = enemy.moveType + " " + condition.WinString + " " + player.moveType + "!";
+			exclamation = enemy.moveType + " " + condition.WinString + " " + player.moveType;
 			return -1;
 		}
 		

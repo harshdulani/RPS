@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerHand Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 180557533655662575, guid: 930b7a19d446f4b4c9c810e37e84e625, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 497982216308674865, guid: 930b7a19d446f4b4c9c810e37e84e625, type: 3}
       propertyPath: m_Avatar
       value: 

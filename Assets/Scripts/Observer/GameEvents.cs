@@ -10,7 +10,7 @@ public class GameEvents : MonoBehaviour
 
     #region Events
     public Action RoundStart;
-    public Action<SO_GameMove> MovePlayed;
+    public Action<SO_GameMove> PlayerMoveSelected;
     public Action<int, string> MoveEnded;
 
     #endregion
@@ -27,9 +27,9 @@ public class GameEvents : MonoBehaviour
         RoundStart?.Invoke();
     }
 
-    public void AnnounceMovePlayed(SO_GameMove move)
+    public void AnnouncePlayerMoveSelected(SO_GameMove move)
     {
-        MovePlayed?.Invoke(move);
+        PlayerMoveSelected?.Invoke(move);
     }
 
     public void AnnounceMoveEnded(int moveResult, string exclamation)

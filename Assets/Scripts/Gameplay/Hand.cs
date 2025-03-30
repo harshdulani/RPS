@@ -6,7 +6,7 @@ public abstract class Hand : MonoBehaviour
 	[field: NonSerialized] public virtual bool IsPlayerHand { get; protected set; } = false;
 	
 	protected SO_GameMove MyMove = null;
-	protected bool bMovePlayed = false; 
+	protected bool bMoveSelected = false; 
 	
 	protected Animator anim;
 	
@@ -29,7 +29,7 @@ public abstract class Hand : MonoBehaviour
 	}
 
 	// May be null if move is not played (on player)/ assigned (on enemy) yet
-	public virtual SO_GameMove GetPlayedMove()
+	public virtual SO_GameMove GetSelectedMove()
 	{
 		return MyMove;
 	}
