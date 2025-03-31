@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ToonyColorsPro.ShaderGenerator;
 using UnityEngine;
 
 public enum EMoveType
@@ -42,7 +41,7 @@ public class SO_GameMove : ScriptableObject
 	{
 		if (player.moveType == enemy.moveType)
 		{
-			exclamation = "Both selected the same move!";
+			exclamation = "Same move!";
 			return 0;
 		}
 		
