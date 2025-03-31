@@ -42,6 +42,8 @@ public class MainCanvasController : MonoBehaviour
 	[SerializeField, Header("Score UI")] private TextMeshProUGUI scoreText;
 	private int _winResult = -100;
 	
+	[SerializeField, Header("Best of 3")] private TextMeshProUGUI bestOf3ScoreText;
+	
 	private void OnEnable()
 	{
 		GameEvents.Singleton.PlayerMoveSelected += OnPlayerMoveSelected;
@@ -213,6 +215,14 @@ public class MainCanvasController : MonoBehaviour
 				                   var color = retryButtonText.color;
 				                   color.a = 0f;
 				                   retryButtonText.color = color;
+			                   }
+
+			                   if (AudioManager.instance)
+			                   {
+				                   if (winResult == 1)
+					                   AudioManager.instance.Play("Win");
+				                   else if (winResult == -1)
+					                   AudioManager.instance.Play("Lose");
 			                   }
 		                   });
 		seq.Insert(seqLength, winResultText.rectTransform.DOScale(Vector3.one, exclamationAppearDuration).SetEase(Ease.OutCirc));
